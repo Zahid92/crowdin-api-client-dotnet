@@ -1,4 +1,4 @@
-﻿
+
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 
@@ -9,8 +9,11 @@ namespace Crowdin.Api.Labels
     {
         [JsonProperty("id")]
         public int Id { get; set; }
-        
+
         [JsonProperty("title")]
         public string Title { get; set; }
+
+        [JsonProperty("isSystem")]
+        public bool IsSystem { get; set; } = false;
     }
 }

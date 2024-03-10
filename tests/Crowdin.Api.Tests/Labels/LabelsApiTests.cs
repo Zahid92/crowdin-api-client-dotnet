@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +21,7 @@ namespace Crowdin.Api.Tests.Labels
     public class LabelsApiTests
     {
         private static readonly JsonSerializerSettings DefaultSettings = TestUtils.CreateJsonSerializerOptions();
-        
+
         [Fact]
         public async Task AddLabel()
         {
@@ -38,7 +38,7 @@ namespace Crowdin.Api.Tests.Labels
             Assert.Equal(expectedRequestJson, actualRequestJson);
 
             var url = $"/projects/{projectId}/labels";
-            
+
             Mock<ICrowdinApiClient> mockClient = TestUtils.CreateMockClientWithDefaultParser();
 
             mockClient
@@ -51,7 +51,7 @@ namespace Crowdin.Api.Tests.Labels
 
             var executor = new LabelsApiExecutor(mockClient.Object);
             Label response = await executor.AddLabel(projectId, request);
-            
+
             Assert.NotNull(response);
             Assert.Equal(newTitle, response.Title);
         }
@@ -86,7 +86,7 @@ namespace Crowdin.Api.Tests.Labels
 
             var executor = new LabelsApiExecutor(mockClient.Object);
             ResponseList<SourceString> response = await executor.AssignLabelToStrings(projectId, labelId, request);
-            
+
             Assert.NotNull(response);
             Assert.Single(response.Data);
             Assert.Equal(labelId, response.Data[0].LabelIds[0]);
@@ -136,7 +136,7 @@ namespace Crowdin.Api.Tests.Labels
             Mock<ICrowdinApiClient> mockClient = TestUtils.CreateMockClientWithDefaultParser();
 
             var url = $"/projects/{projectId}/labels/{labelId}/screenshots";
-            
+
             var queryParams = new Dictionary<string, string>
             {
                 { "screenshotIds", string.Join(",", screenshotIds) }
@@ -153,14 +153,47 @@ namespace Crowdin.Api.Tests.Labels
             var executor = new LabelsApiExecutor(mockClient.Object);
             ResponseList<Screenshot>? response =
                 await executor.UnassignLabelFromScreenshots(projectId, labelId, screenshotIds);
-            
+
             Assert_Screenshots(response);
+        }
+
+        [Fact]
+        public async Task ListLabels()
+        {
+            var projectId = 34;
+
+            var url = $"/projects/{projectId}/labels";
+
+            var queryParams = new Dictionary<string, string>
+            {
+                { "limit", "25" },
+                { "offset", "0" },
+                { "isSystem", "true" }
+            };
+
+            Mock<ICrowdinApiClient> mockClient = TestUtils.CreateMockClientWithDefaultParser();
+
+            mockClient
+                .Setup(client => client.SendGetRequest(url, queryParams))
+                .ReturnsAsync(new CrowdinApiResult
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    JsonObject = JObject.Parse(Core.Resources.Labels.ListLabels_Response)
+                });
+
+            var executor = new LabelsApiExecutor(mockClient.Object);
+            ResponseList<Label>? response =
+                await executor.ListLabels(projectId, 25, 0, true);
+
+            Assert.NotNull(response);
+            Assert.Single(response.Data);
+            Assert.True(response.Data[0].IsSystem);
         }
 
         private static void Assert_Screenshots(ResponseList<Screenshot>? response)
         {
             Assert.NotNull(response);
-            
+
             Screenshot? screenshot = response!.Data?.Single();
             Assert.NotNull(screenshot);
             Assert.Equal(2, screenshot!.Id);
