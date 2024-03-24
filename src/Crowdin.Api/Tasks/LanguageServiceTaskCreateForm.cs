@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
@@ -39,15 +39,9 @@ namespace Crowdin.Api.Tasks
         
         [JsonProperty("labelIds")]
         public ICollection<int>? LabelIds { get; set; }
-        
-        [JsonProperty("skipUntranslatedStrings")]
-        public bool? SkipUntranslatedStrings { get; set; }
 
         [JsonProperty("includePreTranslatedStringsOnly")]
         public bool? IncludePreTranslatedStringsOnly { get; set; }
-        
-        [JsonProperty("includeUntranslatedStringsOnly")]
-        public bool? IncludeUntranslatedStringsOnly { get; set; }
 
         [JsonProperty("dateFrom")]
         public DateTimeOffset? DateFrom { get; set; }

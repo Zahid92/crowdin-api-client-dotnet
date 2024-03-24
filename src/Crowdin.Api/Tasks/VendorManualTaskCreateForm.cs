@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
@@ -38,9 +38,6 @@ namespace Crowdin.Api.Tasks
         
         [JsonProperty("skipAssignedStrings")]
         public bool? SkipAssignedStrings { get; set; }
-        
-        [JsonProperty("skipUntranslatedStrings")]
-        public bool? SkipUntranslatedStrings { get; set; }
         
         [JsonProperty("includePreTranslatedStringsOnly")]
         public bool? IncludePreTranslatedStringsOnly { get; set; }

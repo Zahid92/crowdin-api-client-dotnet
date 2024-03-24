@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
@@ -34,9 +34,6 @@ namespace Crowdin.Api.Tasks
         
         [JsonProperty("description")]
         public string? Description { get; set; }
-        
-        [JsonProperty("splitFiles")]
-        public bool? SplitFiles { get; set; }
         
         [JsonProperty("skipAssignedStrings")]
         public bool? SkipAssignedStrings { get; set; }

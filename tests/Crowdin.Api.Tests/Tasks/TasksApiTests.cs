@@ -1,4 +1,4 @@
-﻿
+
 using Crowdin.Api.Tasks;
 using Crowdin.Api.Tests.Core;
 using Newtonsoft.Json;
@@ -65,7 +65,6 @@ namespace Crowdin.Api.Tests.Tasks
                 Status = TaskStatus.InProgress,
                 Description = "My amazing task",
                 SkipAssignedStrings = true,
-                SkipUntranslatedStrings = true,
                 LabelIds = new[] { 1 },
                 Assignees = new[]
                 {

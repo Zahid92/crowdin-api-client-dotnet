@@ -1,4 +1,4 @@
-﻿
+
 using System.ComponentModel;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
@@ -26,9 +26,6 @@ namespace Crowdin.Api.Tasks
         
         [Description("/deadline")]
         DeadLine,
-        
-        [Description("/splitFiles")]
-        SplitFiles,
         
         [Description("/fileIds")]
         FileIds,
